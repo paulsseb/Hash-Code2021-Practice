@@ -1,11 +1,12 @@
 import java.util.HashMap;
 
-public class Pizza {
-    int rows;
-    int cols;
-    int minIngredientEachPerSlice;
-    int maxCellsPerSlice;
-    HashMap<String, Cell> cells;
+public class CityPlan {
+
+    int simulation;
+    int intersections;
+    int streets;
+    int cars;
+    HashMap<String, Street> streetInfo;
     int rowLength;
     int colLength;
 

@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class Simulator {
     private String fileName;
-    private Pizza pizza;
+    private CityPlan cityInstances;
     private PizzaCutter pizzaCutter;
 
     public Simulator(String fileName) {
@@ -22,27 +22,31 @@ public class Simulator {
             bufferedReader = new BufferedReader(new FileReader(this.fileName + ".in"), bufferSize);
             String line = bufferedReader.readLine();
             String[] firstLine = line.split(" ");
-            pizza = new Pizza();
+            cityInstances = new CityPlan();
 
-            pizza.rows = Integer.parseInt(firstLine[0]);
-            pizza.cols = Integer.parseInt(firstLine[1]);
-            pizza.rowLength = Integer.toString(pizza.rows).length();
-            pizza.colLength = Integer.toString(pizza.cols).length();
-            pizza.minIngredientEachPerSlice = Integer.parseInt(firstLine[2]);
-            pizza.maxCellsPerSlice = Integer.parseInt(firstLine[3]);
-            pizza.cells = new HashMap<>();
+            cityInstances.simulation = Integer.parseInt(firstLine[0]);
+            cityInstances.intersections = Integer.parseInt(firstLine[1]);
+            cityInstances.rowLength = Integer.toString(cityInstances.simulation).length();
+            cityInstances.colLength = Integer.toString(cityInstances.intersections).length();
+            cityInstances.streets = Integer.parseInt(firstLine[2]);
+            cityInstances.cars = Integer.parseInt(firstLine[3]);
+            cityInstances.streetInfo = new HashMap<>();
 
-            for (int i = 0; i < pizza.rows; i++) {
+            for (int i = 0; i < cityInstances.streets; i++) {
                 String l = bufferedReader.readLine();
-                char[] arr = l.toCharArray();
-                for (int j = 0; j < pizza.cols; j++) {
-                    String cellHashKey = pizza.getCellHashKey(i, j);
-                    Cell cell = new Cell();
-                    cell.x = i;
-                    cell.y = j;
-                    cell.ingredient = arr[j];
-                    pizza.cells.put(cellHashKey, cell);
-                }
+                String[] streetDetails = l.split(" ");
+                // char[] arr = l.toCharArray();
+                // for (int j = 0; j < cityInstances.intersections; j++) {
+                String cellHashKey = cityInstances.getCellHashKey(Integer.parseInt(streetDetails[0]),
+                        Integer.parseInt(streetDetails[1]));
+                Street street = new Street();
+                street.startIntersection = Integer.parseInt(streetDetails[0]);
+                street.endIntersection = Integer.parseInt(streetDetails[1]);
+                street.name = streetDetails[2];
+                street.timeL = Integer.parseInt(streetDetails[3]);
+
+                cityInstances.streetInfo.put(cellHashKey, street);
+                // }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,7 +54,7 @@ public class Simulator {
     }
 
     public void simulate() {
-        pizzaCutter = new PizzaCutter(pizza);
+        pizzaCutter = new PizzaCutter(cityInstances);
         pizzaCutter.cutPizza();
     }
 
