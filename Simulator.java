@@ -79,9 +79,9 @@ public class Simulator {
 
     public static void main(String[] args) {
 
-        String[] inputs = { "a_example", "b_small", "c_medium", "d_big" };
+        String[] inputs = { "a_example" };
         for (String in : inputs) {
-            String fileName = "path/to/datasets/" + in;
+            String fileName = "C:/Compete/Hash/Hash-Code2021-Practice/inputs/" + in;
             Simulator simulator = new Simulator(fileName);
             simulator.parseInput();
             simulator.simulate();
